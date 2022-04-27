@@ -1,0 +1,44 @@
+Use gen_dbase.pl to create the database files of your compounds (actives, nonactives)
+that holds the differential fingerprints (currently MACCS and PubChem).
+
+gen_dbase.pl actives.smi  produces actives_db.asc
+gen_dbase.pl inactives.smi   produces inactives_db.asc
+
+If required apply gen_mask.pl to a database file to find out which bits
+of the fingerprints are not used (throughout set off in all compounds).
+
+These masking strings can be changed in mmfp_dice_masked_new.pl if needed.
+
+Use gen_mmfp.pl to generate the differential multimolecule fingerprints (DMMFP)
+from the database files of the actives and nonactives:
+
+gen_mmfp.pl actives_db.asc inactives_db.asc  produces actives_db_mmfp.asc
+
+Use mmfp_dice_masked_new.pl to compute the Soerensen-Dice score for the
+compounds of a database file based on the DMMFPs: 
+
+gen_mmfp_dice_masked_new.pl actives_db.asc actives_db_mmfp.asc > scores_of_actives.txt
+gen_mmfp_dice_masked_new.pl inactives_db.asc actives_db_mmfp.asc > scores_of_inactives.txt
+
+Use gen_auc.pl and gen_bedroc.pl to obtain the AUC, sensitivity, specificity, accuracy, 
+and the BEDROC values: 
+
+gen_auc.pl scores_of_actives.txt scores_of_inactives.txt  produces auc.txt
+gen_bedroc.pl scores_of_actives.txt scores_of_inactives.txt > bedroc.txt
+
+
+To obtain values with the Bayesian classifier use gen_prior.pl to create the 
+initial probabilities:
+
+gen_prior.pl actives.smi inactives_db.asc  produces actives_db_mmprior.asc  
+
+The Bayesian scores are obtained using bayes_mmfp.pl:  
+
+bayes_mmpf.pl actives_db.asc actives_db_mmprior.asc > B_scores_of_actives.txt
+bayes_mmpf.pl inactives_db.asc actives_db_mmprior.asc > B_scores_of_inactives.txt
+
+Use gen_auc_bayes.pl and gen_bedroc.pl to obtain the AUC, sensitivity, specificity, accuracy, 
+and the BEDROC values as above: 
+
+gen_auc_bayes.pl B_scores_of_actives.txt B_scores_of_inactives.txt  produces auc.txt
+gen_bedroc.pl B_scores_of_actives.txt B_scores_of_inactives.txt > bedroc.txt
