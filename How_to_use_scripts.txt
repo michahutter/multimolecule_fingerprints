@@ -1,3 +1,14 @@
+These scripts require following other programs to be installed:
+
+libmath-bigint-gmp-perl
+
+on Ubuntu use: sudo apt-get install libmath-bigint-gmp-perl
+
+Open Babel version 2.3.2 or later version
+
+sudo apt-get install babel
+
+
 Use gen_dbase.pl to create the database files of your compounds (actives, nonactives)
 that holds the differential fingerprints (currently MACCS and PubChem).
 
